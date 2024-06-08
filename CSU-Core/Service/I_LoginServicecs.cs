@@ -9,7 +9,7 @@ namespace CSU_Core.Service
 {
     public interface I_LoginServicecs
     {
-        string UserLogin(Login login);
+        string UserLogin(User login);
 
     }
 }

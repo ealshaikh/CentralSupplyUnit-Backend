@@ -1,30 +1,35 @@
-﻿namespace CSU_Infra.Repository
-{
-    using CSU_Core.Common;
-    using CSU_Core.Models;
-    using CSU_Core.Repository;
-    using Dapper;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using System.Threading.Tasks;
+﻿using CSU_Core.Models;
+using CSU_Core.Repository;
+using Dapper;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Microsoft.Extensions.Logging;
+using CSU_Core.Common; // Add this namespace for logging
 
+namespace CSU_Infra.Repository
+{
     public class LoginRepository : I_LoginRepository
     {
         private readonly IDbContext _dbContext;
+        private readonly ILogger<LoginRepository> _logger; // Inject ILogger
 
-        public LoginRepository(IDbContext dbContext)
+        public LoginRepository(IDbContext dbContext, ILogger<LoginRepository> logger) // Add ILogger parameter to constructor
         {
             this._dbContext = dbContext;
+            this._logger = logger;
         }
 
-        public Login UserLogin(Login login)
+        public User UserLogin(User login)
         {
             var p = new DynamicParameters();
-            p.Add("p_email", login.Email, dbType: System.Data.DbType.String, direction: System.Data.ParameterDirection.Input);
-            p.Add("p_password", login.Password, dbType: System.Data.DbType.String, direction: System.Data.ParameterDirection.Input);
-            IEnumerable<Login> result = _dbContext.Connection.Query<Login>("login_package.user_login", p, commandType: CommandType.StoredProcedure);
+            p.Add("p_email", login.Email, dbType: DbType.String, direction: ParameterDirection.Input);
+            p.Add("p_password", login.Password, dbType: DbType.String, direction: ParameterDirection.Input);
+
+            IEnumerable<User> result = _dbContext.Connection.Query<User>("login_package.user_login", p, commandType: CommandType.StoredProcedure);
+
             return result.FirstOrDefault();
-        }
+       }
     }
 }
