@@ -9,7 +9,7 @@ namespace CSU_Core.Repository
 {
     public interface I_LoginRepository
     {
-       Login UserLogin(Login login);
+       User UserLogin(User login);
 
     }
 }

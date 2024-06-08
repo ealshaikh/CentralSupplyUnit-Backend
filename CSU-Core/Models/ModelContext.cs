@@ -17,7 +17,6 @@ namespace CSU_Core.Models
         }
 
         public virtual DbSet<Item> Items { get; set; } = null!;
-        public virtual DbSet<Login> Logins { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Supplydocument> Supplydocuments { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -70,46 +69,7 @@ namespace CSU_Core.Models
                     .HasConstraintName("SYS_C009957");
             });
 
-            modelBuilder.Entity<Login>(entity =>
-            {
-                entity.ToTable("LOGIN");
-
-                entity.Property(e => e.Loginid)
-                    .HasColumnType("NUMBER(38)")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("LOGINID");
-
-                entity.Property(e => e.Email)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("EMAIL");
-
-                entity.Property(e => e.Password)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("PASSWORD");
-
-                entity.Property(e => e.Roleid)
-                    .HasColumnType("NUMBER(38)")
-                    .HasColumnName("ROLEID");
-
-                entity.Property(e => e.Userid)
-                    .HasColumnType("NUMBER(38)")
-                    .HasColumnName("USERID");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Logins)
-                    .HasForeignKey(d => d.Roleid)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("SYS_C009946");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Logins)
-                    .HasForeignKey(d => d.Userid)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("SYS_C009947");
-            });
-
+           
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("ROLE");

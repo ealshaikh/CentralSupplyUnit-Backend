@@ -18,7 +18,7 @@ namespace CSU_Core.Repository
 
         Task DeleteUser(int userId);
 
-        Task<string> GetRoleName(int roleId);
+        Task<string> GetRoleName(decimal roleId);
 
     }
 }

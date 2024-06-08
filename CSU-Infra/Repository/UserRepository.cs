@@ -37,26 +37,12 @@
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            var sql = @"
-                 SELECT u.*, r.Name AS RoleName
-                  FROM users u
-                   
-                JOIN role r ON u.Roleid = r.Roleid";
 
-            var users = await _dbContext.Connection.QueryAsync<User, string, User>(
-                sql,
-                (user, roleName) =>
-                {
-                    user.RoleName = roleName;
-                    return user;
-                },
-                splitOn: "RoleName"
-            );
-
-            return users;
+            var items = await _dbContext.Connection.QueryAsync<User>("user_package.getallusers", commandType: CommandType.StoredProcedure);
+            return items;
         }
 
-        public async Task<string> GetRoleName(int roleId)
+        public async Task<string> GetRoleName(decimal roleId)
         {
             var p = new DynamicParameters();
             p.Add("p_role_id", roleId, dbType: System.Data.DbType.Int32, ParameterDirection.Input);

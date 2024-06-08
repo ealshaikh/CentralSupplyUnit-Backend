@@ -172,13 +172,6 @@ public class CustomSchemaFilter : ISchemaFilter
             };
         }
 
-        if (context.Type == typeof(Login))
-        {
-            schema.Example = new OpenApiObject
-            {
-                ["email"] = new OpenApiString("string"),
-                ["password"] = new OpenApiString("string")
-            };
-        }
+     
     }
 }

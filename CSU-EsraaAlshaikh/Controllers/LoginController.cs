@@ -1,7 +1,7 @@
-﻿using CSU_Core.Models;
+﻿using CSU_Core.DTO;
+using CSU_Core.Models;
 using CSU_Core.Service;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSU_EsraaAlshaikh.Controllers
@@ -10,8 +10,8 @@ namespace CSU_EsraaAlshaikh.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-
         private readonly I_LoginServicecs _loginService;
+
         public LoginController(I_LoginServicecs loginServicecs)
         {
             _loginService = loginServicecs;
@@ -19,17 +19,22 @@ namespace CSU_EsraaAlshaikh.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-
-        public IActionResult Login([FromBody] Login userLogin)
+        public IActionResult Login([FromBody] UserLoginRequest loginRequest)
         {
-            var token = _loginService.UserLogin(userLogin);
+            var user = new User
+            {
+                Email = loginRequest.Email,
+                Password = loginRequest.Password
+            };
+
+            var token = _loginService.UserLogin(user);
             if (token == null)
             {
-                return Unauthorized(new {Message = "User is unauthorized" });
+                return Unauthorized(new { Message = "User is unauthorized" });
             }
             else
             {
-                return Ok(new { Message = "User retrieved successfully.", Token = $"{token}" });
+                return Ok(new { Message = "User retrieved successfully.", Token = token });
             }
         }
     }
