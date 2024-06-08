@@ -1,0 +1,6 @@
+@CSU_EsraaAlshaikh_HostAddress = http://localhost:5110
+
+GET {{CSU_EsraaAlshaikh_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
