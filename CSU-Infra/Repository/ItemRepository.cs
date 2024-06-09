@@ -18,7 +18,7 @@
             this._dbContext = dbContext;
         }
 
-        public  Task CreateItem(Item item)
+        public async  Task CreateItem(Item item)
         {
 
             var p = new DynamicParameters();
@@ -26,7 +26,7 @@
             p.Add("p_item_description", item.Itemdescription, dbType: System.Data.DbType.String, direction: System.Data.ParameterDirection.Input);
             p.Add("p_quantity", item.Quantity, dbType: System.Data.DbType.Int32, direction: System.Data.ParameterDirection.Input);
             p.Add("p_warehouseid", item.Warehouseid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-          return   _dbContext.Connection.ExecuteAsync("item_package.create_item", p, commandType: CommandType.StoredProcedure);
+          await   _dbContext.Connection.ExecuteAsync("item_package.create_item", p, commandType: CommandType.StoredProcedure);
         }
 
         public async Task DeleteItem(int itemId)
